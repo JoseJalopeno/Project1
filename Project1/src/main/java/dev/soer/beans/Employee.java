@@ -1,22 +1,25 @@
 package dev.soer.beans;
 
+import java.util.List;
+
 public class Employee {
 
 	private Integer id;
 	private String firstName;
 	private String lastName;
-	private Integer employeeType;
+	private EmployeeType employeeType;
 	private Double balance;
 	private String email;
 	private String username;
 	private String password;
+	private List<Form> forms;
 	
 	public Employee() {
 		super();
 	}
 
-	public Employee(Integer id, String firstName, String lastName, Integer employeeType, Double balance, String email,
-			String username, String password) {
+	public Employee(Integer id, String firstName, String lastName, EmployeeType employeeType, Double balance, String email,
+			String username, String password, List<Form> forms) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -26,6 +29,7 @@ public class Employee {
 		this.email = email;
 		this.username = username;
 		this.password = password;
+		this.forms = forms;
 	}
 
 	public Integer getId() {
@@ -52,11 +56,11 @@ public class Employee {
 		this.lastName = lastName;
 	}
 
-	public Integer getEmployeeType() {
+	public EmployeeType getEmployeeType() {
 		return employeeType;
 	}
 
-	public void setEmployeeType(Integer employeeType) {
+	public void setEmployeeType(EmployeeType employeeType) {
 		this.employeeType = employeeType;
 	}
 
@@ -92,6 +96,14 @@ public class Employee {
 		this.password = password;
 	}
 
+	public List<Form> getForms() {
+		return forms;
+	}
+
+	public void setForms(List<Form> forms) {
+		this.forms = forms;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -100,6 +112,7 @@ public class Employee {
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((employeeType == null) ? 0 : employeeType.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + ((forms == null) ? 0 : forms.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
@@ -136,6 +149,11 @@ public class Employee {
 				return false;
 		} else if (!firstName.equals(other.firstName))
 			return false;
+		if (forms == null) {
+			if (other.forms != null)
+				return false;
+		} else if (!forms.equals(other.forms))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -163,7 +181,7 @@ public class Employee {
 	public String toString() {
 		return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", employeeType="
 				+ employeeType + ", balance=" + balance + ", email=" + email + ", username=" + username + ", password="
-				+ password + "]";
+				+ password + ", forms=" + forms + "]";
 	}
-	
+
 }
