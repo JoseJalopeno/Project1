@@ -5,9 +5,9 @@ import java.util.List;
 public interface GenericRepo<T> {
 
 	T add(T t);
-	T get(Integer i);
+	T getById(Integer i);
 	T get(String user, String pass);
 	List<T> getAll(); // get all users
-	boolean update(T u);
+	T update(T u);
 	boolean remove(T t);
 }

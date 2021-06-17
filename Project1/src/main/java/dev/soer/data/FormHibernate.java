@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
+import dev.soer.beans.Employee;
 import dev.soer.beans.Form;
 import dev.soer.utils.HibernateUtil;
 
@@ -12,17 +14,30 @@ public class FormHibernate implements GenericRepo<Form> {
 
 	@Override
 	public Form add(Form t) {
-		// TODO Auto-generated method stub
-		return null;
+		Session s = HibernateUtil.getSession();
+		Transaction tx = null;
+		try {
+			s.beginTransaction();
+			s.save(t);
+			s.getTransaction().commit();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			s.getTransaction().rollback();
+		} finally {
+			s.close();
+		}
+		return t;
 	}
 
 	@Override
-	public Form get(Integer i) {
-		// TODO Auto-generated method stub
-		return null;
+	public Form getById(Integer id) {
+		Session s = HibernateUtil.getSession();
+		Form f = s.get(Form.class, id);
+		s.close();
+		return f;
 	}
 
-	@Override
+	@Override // not needed for forms
 	public Form get(String user, String pass) {
 		// TODO Auto-generated method stub
 		return null;
@@ -43,15 +58,38 @@ public class FormHibernate implements GenericRepo<Form> {
 	}
 
 	@Override
-	public boolean update(Form u) {
-		// TODO Auto-generated method stub
-		return false;
+	public Form update(Form u) {
+		Session s = HibernateUtil.getSession();
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			s.update(u);
+			tx.commit();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			tx.rollback();
+		} finally {
+			s.close();
+		}
+		return u;
 	}
 
 	@Override
 	public boolean remove(Form t) {
-		// TODO Auto-generated method stub
-		return false;
+		Session s = HibernateUtil.getSession();
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			s.delete(t);
+			tx.commit();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			tx.rollback();
+			return false;
+		} finally {
+			s.close();
+		}
+		return true;
 	}
 
 }

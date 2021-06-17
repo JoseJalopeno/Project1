@@ -3,13 +3,41 @@ package dev.soer.services;
 import java.util.List;
 
 import dev.soer.beans.Form;
-import dev.soer.data.FormDAO;
+import dev.soer.data.FormHibernate;
 
-public class FormServices {
+public class FormServices implements GenericServices<Form> {
 
-	private static FormDAO fdao = new FormDAO();
-	
-	public List<Form> getAllForms() {
-		return fdao.getAll();
+	private static FormHibernate fh = new FormHibernate();
+
+	@Override
+	public Form add(Form t) {
+		return fh.add(t);
 	}
+
+	@Override
+	public Form getById(Integer id) {
+		return fh.getById(id);
+	}
+
+	@Override
+	public Form get(String pass, String user) {
+		return fh.get(user, pass);
+	}
+
+	@Override
+	public List<Form> getAll() {
+		List<Form> forms = fh.getAll();
+		return forms;
+	}
+
+	@Override
+	public Form update(Form t) {
+		return fh.update(t);
+	}
+
+	@Override
+	public boolean delete(Form t) {
+		return fh.remove(t);
+	}
+
 }

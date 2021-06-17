@@ -3,8 +3,8 @@ package dev.soer.beans;
 import javax.persistence.*;
 
 
-@Entity
-@Table(name="\"project1\".gradeformats")
+@Entity(name="gradeformats")
+@Table(name = "\"project1\".gradeformats")
 public class GradeFormats {
 	@Id
 	@Column(name ="id", insertable = false, updatable = false)

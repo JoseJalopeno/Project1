@@ -1,0 +1,11 @@
+body {
+  background-color: rgba(247,242,232, 0.5);
+  color: rgb(46,157,182);
+}
+#content {
+  max-width: 600px;
+  margin: auto;
+}
+#content2 {
+  text-align: center;
+}

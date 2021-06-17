@@ -1,7 +1,7 @@
 package dev.soer.beans;
 
 import javax.persistence.*;
-@Entity
+@Entity(name = "reimbursements")
 @Table(name = "\"project1\".reimbursements")
 public class Reimbursements {
 	@Id

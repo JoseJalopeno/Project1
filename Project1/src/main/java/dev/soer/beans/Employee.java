@@ -3,8 +3,9 @@ package dev.soer.beans;
 import java.util.List;
 
 import javax.persistence.*;
-@Entity
-@Table(name="\"project1\".employees")
+
+@Entity(name = "employees")
+@Table(name = "\"project1\".employees")
 public class Employee {
 	@Id
 	@Column(name = "id", insertable = false, updatable = false)
@@ -22,13 +23,13 @@ public class Employee {
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name = "empid")
 	private List<Form> forms;
-	
+
 	public Employee() {
 		super();
 	}
 
-	public Employee(Integer id, String firstName, String lastName, EmployeeType employeeType, Double balance, String email,
-			String username, String password, List<Form> forms) {
+	public Employee(Integer id, String firstName, String lastName, EmployeeType employeeType, Double balance,
+			String email, String username, String password, List<Form> forms) {
 		super();
 		this.id = id;
 		this.firstName = firstName;

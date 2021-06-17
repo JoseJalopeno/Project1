@@ -23,7 +23,7 @@ public class FrontControllerServlet extends HttpServlet{
 			case "/Project1/forms": {
 				System.out.println("Getting all forms...");
 				response.getWriter().append("Hello\n");
-				List<Form> forms = fs.getAllForms();
+				List<Form> forms = fs.getAll();
 				System.out.println(forms);
 				response.setHeader("Access-Control-Allow-Origin","*");
 				response.getWriter().append(gson.toJson(forms));

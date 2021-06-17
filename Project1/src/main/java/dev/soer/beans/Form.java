@@ -3,8 +3,8 @@ package dev.soer.beans;
 import java.sql.Timestamp;
 
 import javax.persistence.*;
-@Entity
-@Table(name="\"project1\".forms")
+@Entity(name="forms")
+@Table(name = "\"project1\".forms")
 public class Form {
 	@Id
 	@Column(name ="id", insertable = false, updatable = false)

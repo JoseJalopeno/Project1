@@ -2,7 +2,7 @@ package dev.soer.beans;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "employeetype")
 @Table(name = "\"project1\".employeetype")
 public class EmployeeType {
 	@Id
