@@ -11,23 +11,26 @@ public class Form {
 	private String location;
 	private String description;
 	private Double eventCost;
-	private Integer gradeFormatID;
-	private String eventype;
-	private Integer justification;
+	private GradeFormats gradeFormatID;
+	private String eventtype;
+	private Justifications justification;
 	private Timestamp submissionDate;
-	private Integer reimbursementID;
+	private Reimbursements reimbursementID;
 	private boolean supervisorApproval;
 	private boolean deptHeadApproval;
 	private boolean BCApproval;
+	private boolean approval;
+	private String grade;
 	
+
 	public Form() {
 		super();
 	}
 
 	public Form(Integer id, Integer empID, Timestamp eventDate, Timestamp startTime, String location,
-			String description, Double eventCost, Integer gradeFormatID, String eventype, Integer justification,
-			Timestamp submissionDate, Integer reimbursementID, boolean supervisorApproval, boolean deptHeadApproval,
-			boolean bCApproval) {
+			String description, Double eventCost, GradeFormats gradeFormatID, String eventtype,
+			Justifications justification, Timestamp submissionDate, Reimbursements reimbursementID,
+			boolean supervisorApproval, boolean deptHeadApproval, boolean bCApproval, boolean approval, String grade) {
 		super();
 		this.id = id;
 		this.empID = empID;
@@ -37,13 +40,15 @@ public class Form {
 		this.description = description;
 		this.eventCost = eventCost;
 		this.gradeFormatID = gradeFormatID;
-		this.eventype = eventype;
+		this.eventtype = eventtype;
 		this.justification = justification;
 		this.submissionDate = submissionDate;
 		this.reimbursementID = reimbursementID;
 		this.supervisorApproval = supervisorApproval;
 		this.deptHeadApproval = deptHeadApproval;
 		this.BCApproval = bCApproval;
+		this.approval = approval;
+		this.grade = grade;
 	}
 
 	public Integer getId() {
@@ -102,27 +107,27 @@ public class Form {
 		this.eventCost = eventCost;
 	}
 
-	public Integer getGradeFormatID() {
+	public GradeFormats getGradeFormatID() {
 		return gradeFormatID;
 	}
 
-	public void setGradeFormatID(Integer gradeFormatID) {
+	public void setGradeFormatID(GradeFormats gradeFormatID) {
 		this.gradeFormatID = gradeFormatID;
 	}
 
-	public String getEventype() {
-		return eventype;
+	public String getEventtype() {
+		return eventtype;
 	}
 
-	public void setEventype(String eventype) {
-		this.eventype = eventype;
+	public void setEventtype(String eventype) {
+		this.eventtype = eventype;
 	}
 
-	public Integer getJustification() {
+	public Justifications getJustification() {
 		return justification;
 	}
 
-	public void setJustification(Integer justification) {
+	public void setJustification(Justifications justification) {
 		this.justification = justification;
 	}
 
@@ -134,11 +139,11 @@ public class Form {
 		this.submissionDate = submissionDate;
 	}
 
-	public Integer getReimbursementID() {
+	public Reimbursements getReimbursementID() {
 		return reimbursementID;
 	}
 
-	public void setReimbursementID(Integer reimbursementID) {
+	public void setReimbursementID(Reimbursements reimbursementID) {
 		this.reimbursementID = reimbursementID;
 	}
 
@@ -165,18 +170,36 @@ public class Form {
 	public void setBCApproval(boolean bCApproval) {
 		BCApproval = bCApproval;
 	}
+	
+	public boolean isApproval() {
+		return approval;
+	}
+
+	public void setApproval(boolean approval) {
+		this.approval = approval;
+	}
+	
+	public String getGrade() {
+		return grade;
+	}
+
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (BCApproval ? 1231 : 1237);
+		result = prime * result + (approval ? 1231 : 1237);
 		result = prime * result + (deptHeadApproval ? 1231 : 1237);
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((empID == null) ? 0 : empID.hashCode());
 		result = prime * result + ((eventCost == null) ? 0 : eventCost.hashCode());
 		result = prime * result + ((eventDate == null) ? 0 : eventDate.hashCode());
-		result = prime * result + ((eventype == null) ? 0 : eventype.hashCode());
+		result = prime * result + ((eventtype == null) ? 0 : eventtype.hashCode());
+		result = prime * result + ((grade == null) ? 0 : grade.hashCode());
 		result = prime * result + ((gradeFormatID == null) ? 0 : gradeFormatID.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((justification == null) ? 0 : justification.hashCode());
@@ -198,6 +221,8 @@ public class Form {
 			return false;
 		Form other = (Form) obj;
 		if (BCApproval != other.BCApproval)
+			return false;
+		if (approval != other.approval)
 			return false;
 		if (deptHeadApproval != other.deptHeadApproval)
 			return false;
@@ -221,10 +246,15 @@ public class Form {
 				return false;
 		} else if (!eventDate.equals(other.eventDate))
 			return false;
-		if (eventype == null) {
-			if (other.eventype != null)
+		if (eventtype == null) {
+			if (other.eventtype != null)
 				return false;
-		} else if (!eventype.equals(other.eventype))
+		} else if (!eventtype.equals(other.eventtype))
+			return false;
+		if (grade == null) {
+			if (other.grade != null)
+				return false;
+		} else if (!grade.equals(other.grade))
 			return false;
 		if (gradeFormatID == null) {
 			if (other.gradeFormatID != null)
@@ -270,14 +300,12 @@ public class Form {
 	public String toString() {
 		return "Form [id=" + id + ", empID=" + empID + ", eventDate=" + eventDate + ", startTime=" + startTime
 				+ ", location=" + location + ", description=" + description + ", eventCost=" + eventCost
-				+ ", gradeFormatID=" + gradeFormatID + ", eventype=" + eventype + ", justification=" + justification
+				+ ", gradeFormatID=" + gradeFormatID + ", eventtype=" + eventtype + ", justification=" + justification
 				+ ", submissionDate=" + submissionDate + ", reimbursementID=" + reimbursementID
 				+ ", supervisorApproval=" + supervisorApproval + ", deptHeadApproval=" + deptHeadApproval
-				+ ", BCApproval=" + BCApproval + "]";
+				+ ", BCApproval=" + BCApproval + ", approval=" + approval + ", grade=" + grade + "]";
 	}
-	
-	
-	
+
 	
 }
 	

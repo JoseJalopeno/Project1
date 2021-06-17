@@ -7,31 +7,30 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import dev.soer.beans.EmployeeType;
-import dev.soer.beans.GradeFormats;
+import dev.soer.beans.Justifications;
 import dev.soer.utils.JDBCConnection;
 
-public class GradeFormatsDAO implements GenericRepo<GradeFormats>{
+public class JustificationsDAO implements GenericRepo<Justifications>{
 	private Connection conn = JDBCConnection.getConnection();
 	@Override
-	public GradeFormats add(GradeFormats t) {
+	public Justifications add(Justifications t) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public GradeFormats get(Integer id) {
-		String sql = "select * from \"project1\".gradeformats where id = ?";
+	public Justifications get(Integer id) {
+		String sql = "select * from \"project1\".justifications where id = ?";
 		try {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				GradeFormats gf = new GradeFormats();
-				gf.setId(rs.getInt("id"));
-				gf.setName(rs.getString("name"));
+				Justifications j = new Justifications();
+				j.setId(rs.getInt("id"));
+				j.setName(rs.getString("name"));
 				
-				return gf;
+				return j;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -41,24 +40,24 @@ public class GradeFormatsDAO implements GenericRepo<GradeFormats>{
 	}
 
 	@Override
-	public GradeFormats get(String user, String pass) {
+	public Justifications get(String user, String pass) {
 		return null;
 	}
 
 	@Override
-	public List<GradeFormats> getAll() {
-		List<GradeFormats> formats = new ArrayList<GradeFormats>();
-		String sql = "select * from \"project1\".gradeformats";
+	public List<Justifications> getAll() {
+		List<Justifications> justifications = new ArrayList<Justifications>();
+		String sql = "select * from \"project1\".justifications";
 		try {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				GradeFormats gf = new GradeFormats();
-				gf.setId(rs.getInt("id"));
-				gf.setName(rs.getString("name"));
-				formats.add(gf);
+				Justifications j = new Justifications();
+				j.setId(rs.getInt("id"));
+				j.setName(rs.getString("name"));
+				justifications.add(j);
 			}
-			return formats;
+			return justifications;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -68,13 +67,13 @@ public class GradeFormatsDAO implements GenericRepo<GradeFormats>{
 	}
 
 	@Override
-	public boolean update(GradeFormats u) {
+	public boolean update(Justifications u) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean remove(GradeFormats t) {
+	public boolean remove(Justifications t) {
 		// TODO Auto-generated method stub
 		return false;
 	}
