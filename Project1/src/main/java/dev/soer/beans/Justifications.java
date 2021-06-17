@@ -1,8 +1,15 @@
 package dev.soer.beans;
 
-public class Justifications {
+import javax.persistence.*;
 
+@Entity
+@Table(name = "\"project1\".justifications")
+public class Justifications {
+	@Id
+	@Column(name ="id", insertable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
+	@Column(name = "justification")
 	private String name;
 	
 	public Justifications() {

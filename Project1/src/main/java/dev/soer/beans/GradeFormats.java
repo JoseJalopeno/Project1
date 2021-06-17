@@ -1,8 +1,16 @@
 package dev.soer.beans;
 
-public class GradeFormats {
+import javax.persistence.*;
 
+
+@Entity
+@Table(name="\"project1\".gradeformats")
+public class GradeFormats {
+	@Id
+	@Column(name ="id", insertable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
+	@Column(name = "gradeformat")
 	private String name;
 	
 	public GradeFormats() {

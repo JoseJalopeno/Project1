@@ -2,8 +2,13 @@ package dev.soer.beans;
 
 import java.sql.Timestamp;
 
+import javax.persistence.*;
+@Entity
+@Table(name="\"project1\".forms")
 public class Form {
-
+	@Id
+	@Column(name ="id", insertable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	private Integer empID;
 	private Timestamp eventDate;
@@ -11,25 +16,30 @@ public class Form {
 	private String location;
 	private String description;
 	private Double eventCost;
-	private GradeFormats gradeFormatID;
 	private String eventtype;
-	private Justifications justification;
 	private Timestamp submissionDate;
-	private Reimbursements reimbursementID;
 	private boolean supervisorApproval;
 	private boolean deptHeadApproval;
+	@Column(name = "benefitscoordinatorapproval")
 	private boolean BCApproval;
 	private boolean approval;
 	private String grade;
-	
-
+	@ManyToOne
+	@JoinColumn(name = "gradeformat", insertable = false, updatable = false)
+	private GradeFormats gradeFormatID;
+	@ManyToOne
+	@JoinColumn(name = "justification", insertable = false, updatable = false)
+	private Justifications justification;
+	@ManyToOne
+	@JoinColumn(name = "reimbursement", insertable = false, updatable = false)
+	private Reimbursements reimbursement;
 	public Form() {
 		super();
 	}
 
 	public Form(Integer id, Integer empID, Timestamp eventDate, Timestamp startTime, String location,
 			String description, Double eventCost, GradeFormats gradeFormatID, String eventtype,
-			Justifications justification, Timestamp submissionDate, Reimbursements reimbursementID,
+			Justifications justification, Timestamp submissionDate, Reimbursements reimbursement,
 			boolean supervisorApproval, boolean deptHeadApproval, boolean bCApproval, boolean approval, String grade) {
 		super();
 		this.id = id;
@@ -43,7 +53,7 @@ public class Form {
 		this.eventtype = eventtype;
 		this.justification = justification;
 		this.submissionDate = submissionDate;
-		this.reimbursementID = reimbursementID;
+		this.reimbursement = reimbursement;
 		this.supervisorApproval = supervisorApproval;
 		this.deptHeadApproval = deptHeadApproval;
 		this.BCApproval = bCApproval;
@@ -139,12 +149,12 @@ public class Form {
 		this.submissionDate = submissionDate;
 	}
 
-	public Reimbursements getReimbursementID() {
-		return reimbursementID;
+	public Reimbursements getReimbursement() {
+		return reimbursement;
 	}
 
-	public void setReimbursementID(Reimbursements reimbursementID) {
-		this.reimbursementID = reimbursementID;
+	public void setReimbursementID(Reimbursements reimbursement) {
+		this.reimbursement = reimbursement;
 	}
 
 	public boolean isSupervisorApproval() {
@@ -204,7 +214,7 @@ public class Form {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((justification == null) ? 0 : justification.hashCode());
 		result = prime * result + ((location == null) ? 0 : location.hashCode());
-		result = prime * result + ((reimbursementID == null) ? 0 : reimbursementID.hashCode());
+		result = prime * result + ((reimbursement == null) ? 0 : reimbursement.hashCode());
 		result = prime * result + ((startTime == null) ? 0 : startTime.hashCode());
 		result = prime * result + ((submissionDate == null) ? 0 : submissionDate.hashCode());
 		result = prime * result + (supervisorApproval ? 1231 : 1237);
@@ -276,10 +286,10 @@ public class Form {
 				return false;
 		} else if (!location.equals(other.location))
 			return false;
-		if (reimbursementID == null) {
-			if (other.reimbursementID != null)
+		if (reimbursement == null) {
+			if (other.reimbursement != null)
 				return false;
-		} else if (!reimbursementID.equals(other.reimbursementID))
+		} else if (!reimbursement.equals(other.reimbursement))
 			return false;
 		if (startTime == null) {
 			if (other.startTime != null)
@@ -301,7 +311,7 @@ public class Form {
 		return "Form [id=" + id + ", empID=" + empID + ", eventDate=" + eventDate + ", startTime=" + startTime
 				+ ", location=" + location + ", description=" + description + ", eventCost=" + eventCost
 				+ ", gradeFormatID=" + gradeFormatID + ", eventtype=" + eventtype + ", justification=" + justification
-				+ ", submissionDate=" + submissionDate + ", reimbursementID=" + reimbursementID
+				+ ", submissionDate=" + submissionDate + ", reimbursement=" + reimbursement
 				+ ", supervisorApproval=" + supervisorApproval + ", deptHeadApproval=" + deptHeadApproval
 				+ ", BCApproval=" + BCApproval + ", approval=" + approval + ", grade=" + grade + "]";
 	}

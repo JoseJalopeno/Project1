@@ -1,8 +1,14 @@
 package dev.soer.beans;
 
+import javax.persistence.*;
+@Entity
+@Table(name = "\"project1\".reimbursements")
 public class Reimbursements {
-
+	@Id
+	@Column(name ="id", insertable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
+	@Column(name = "reimbursement")
 	private String name;
 	private Double percent;
 	

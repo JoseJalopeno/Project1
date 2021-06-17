@@ -1,18 +1,24 @@
 package dev.soer.beans;
 
-public class EmployeeType {
+import javax.persistence.*;
 
+@Entity
+@Table(name = "\"project1\".employeetype")
+public class EmployeeType {
+	@Id
+	@Column(name = "id", insertable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-	private String name;
-	
+	private String employeetype;
+
 	public EmployeeType() {
 		super();
 	}
 
-	public EmployeeType(Integer id, String name) {
+	public EmployeeType(Integer id, String employeetype) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.employeetype = employeetype;
 	}
 
 	public Integer getId() {
@@ -23,12 +29,12 @@ public class EmployeeType {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getEmployeeType() {
+		return employeetype;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setEmployeeType(String employeetype) {
+		this.employeetype = employeetype;
 	}
 
 	@Override
@@ -36,7 +42,7 @@ public class EmployeeType {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((employeetype == null) ? 0 : employeetype.hashCode());
 		return result;
 	}
 
@@ -54,20 +60,17 @@ public class EmployeeType {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (name == null) {
-			if (other.name != null)
+		if (employeetype == null) {
+			if (other.employeetype != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!employeetype.equals(other.employeetype))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "EmployeeType [id=" + id + ", name=" + name + "]";
+		return "EmployeeType [id=" + id + ", employeetype=" + employeetype + "]";
 	}
-	
-	
-	
-	
+
 }

@@ -2,16 +2,25 @@ package dev.soer.beans;
 
 import java.util.List;
 
+import javax.persistence.*;
+@Entity
+@Table(name="\"project1\".employees")
 public class Employee {
-
+	@Id
+	@Column(name = "id", insertable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	private String firstName;
 	private String lastName;
-	private EmployeeType employeeType;
 	private Double balance;
 	private String email;
 	private String username;
 	private String password;
+	@ManyToOne
+	@JoinColumn(name = "employeetype")
+	private EmployeeType employeeType;
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name = "empid")
 	private List<Form> forms;
 	
 	public Employee() {
