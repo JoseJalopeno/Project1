@@ -19,7 +19,7 @@ public class EmployeeServices implements GenericServices<Employee> {
 	}
 
 	@Override
-	public Employee get(String pass, String user) {
+	public Employee get(String user, String pass) {
 		return eh.get(user, pass);
 	}
 
