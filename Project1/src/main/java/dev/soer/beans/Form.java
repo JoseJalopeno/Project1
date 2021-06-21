@@ -1,6 +1,7 @@
 package dev.soer.beans;
 
-import java.sql.Timestamp;
+import java.sql.Time;
+import java.util.Date;
 
 import javax.persistence.*;
 @Entity(name="forms")
@@ -11,18 +12,18 @@ public class Form {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	private Integer empID;
-	private Timestamp eventDate;
-	private Timestamp startTime;
+	private Date eventDate;
+	//private Time startTime;
 	private String location;
 	private String description;
 	private Double eventCost;
 	private String eventtype;
-	private Timestamp submissionDate;
+	private Date submissionDate;
 	private boolean supervisorApproval;
 	private boolean deptHeadApproval;
 	@Column(name = "benefitscoordinatorapproval")
 	private boolean BCApproval;
-	private boolean approval;
+	private String status;
 	private String grade;
 	@ManyToOne
 	@JoinColumn(name = "gradeformat", insertable = false, updatable = false)
@@ -37,15 +38,14 @@ public class Form {
 		super();
 	}
 
-	public Form(Integer id, Integer empID, Timestamp eventDate, Timestamp startTime, String location,
+	public Form(Integer id, Integer empID, Date eventDate, String location,
 			String description, Double eventCost, GradeFormats gradeFormatID, String eventtype,
-			Justifications justification, Timestamp submissionDate, Reimbursements reimbursement,
-			boolean supervisorApproval, boolean deptHeadApproval, boolean bCApproval, boolean approval, String grade) {
+			Justifications justification, Date submissionDate, Reimbursements reimbursement,
+			boolean supervisorApproval, boolean deptHeadApproval, boolean bCApproval, String status, String grade) {
 		super();
 		this.id = id;
 		this.empID = empID;
 		this.eventDate = eventDate;
-		this.startTime = startTime;
 		this.location = location;
 		this.description = description;
 		this.eventCost = eventCost;
@@ -57,7 +57,7 @@ public class Form {
 		this.supervisorApproval = supervisorApproval;
 		this.deptHeadApproval = deptHeadApproval;
 		this.BCApproval = bCApproval;
-		this.approval = approval;
+		this.status = status;
 		this.grade = grade;
 	}
 
@@ -77,20 +77,12 @@ public class Form {
 		this.empID = empID;
 	}
 
-	public Timestamp getEventDate() {
+	public Date getEventDate() {
 		return eventDate;
 	}
 
-	public void setEventDate(Timestamp eventDate) {
+	public void setEventDate(Date eventDate) {
 		this.eventDate = eventDate;
-	}
-
-	public Timestamp getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(Timestamp startTime) {
-		this.startTime = startTime;
 	}
 
 	public String getLocation() {
@@ -141,11 +133,11 @@ public class Form {
 		this.justification = justification;
 	}
 
-	public Timestamp getSubmissionDate() {
+	public Date getSubmissionDate() {
 		return submissionDate;
 	}
 
-	public void setSubmissionDate(Timestamp submissionDate) {
+	public void setSubmissionDate(Date submissionDate) {
 		this.submissionDate = submissionDate;
 	}
 
@@ -181,14 +173,18 @@ public class Form {
 		BCApproval = bCApproval;
 	}
 	
-	public boolean isApproval() {
-		return approval;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setApproval(boolean approval) {
-		this.approval = approval;
+	public void setStatus(String status) {
+		this.status = status;
 	}
-	
+
+	public void setReimbursement(Reimbursements reimbursement) {
+		this.reimbursement = reimbursement;
+	}
+
 	public String getGrade() {
 		return grade;
 	}
@@ -196,13 +192,20 @@ public class Form {
 	public void setGrade(String grade) {
 		this.grade = grade;
 	}
+	
+//	public Time getStartTime() {
+//		return startTime;
+//	}
+//
+//	public void setStartTime(Time startTime) {
+//		this.startTime = startTime;
+//	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (BCApproval ? 1231 : 1237);
-		result = prime * result + (approval ? 1231 : 1237);
 		result = prime * result + (deptHeadApproval ? 1231 : 1237);
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((empID == null) ? 0 : empID.hashCode());
@@ -215,7 +218,8 @@ public class Form {
 		result = prime * result + ((justification == null) ? 0 : justification.hashCode());
 		result = prime * result + ((location == null) ? 0 : location.hashCode());
 		result = prime * result + ((reimbursement == null) ? 0 : reimbursement.hashCode());
-		result = prime * result + ((startTime == null) ? 0 : startTime.hashCode());
+		//result = prime * result + ((startTime == null) ? 0 : startTime.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((submissionDate == null) ? 0 : submissionDate.hashCode());
 		result = prime * result + (supervisorApproval ? 1231 : 1237);
 		return result;
@@ -231,8 +235,6 @@ public class Form {
 			return false;
 		Form other = (Form) obj;
 		if (BCApproval != other.BCApproval)
-			return false;
-		if (approval != other.approval)
 			return false;
 		if (deptHeadApproval != other.deptHeadApproval)
 			return false;
@@ -291,10 +293,15 @@ public class Form {
 				return false;
 		} else if (!reimbursement.equals(other.reimbursement))
 			return false;
-		if (startTime == null) {
-			if (other.startTime != null)
+//		if (startTime == null) {
+//			if (other.startTime != null)
+//				return false;
+//		} else if (!startTime.equals(other.startTime))
+//			return false;
+		if (status == null) {
+			if (other.status != null)
 				return false;
-		} else if (!startTime.equals(other.startTime))
+		} else if (!status.equals(other.status))
 			return false;
 		if (submissionDate == null) {
 			if (other.submissionDate != null)
@@ -308,12 +315,12 @@ public class Form {
 
 	@Override
 	public String toString() {
-		return "Form [id=" + id + ", empID=" + empID + ", eventDate=" + eventDate + ", startTime=" + startTime
+		return "Form [id=" + id + ", empID=" + empID + ", eventDate=" + eventDate //+ ", startTime=" + startTime
 				+ ", location=" + location + ", description=" + description + ", eventCost=" + eventCost
-				+ ", gradeFormatID=" + gradeFormatID + ", eventtype=" + eventtype + ", justification=" + justification
-				+ ", submissionDate=" + submissionDate + ", reimbursement=" + reimbursement
-				+ ", supervisorApproval=" + supervisorApproval + ", deptHeadApproval=" + deptHeadApproval
-				+ ", BCApproval=" + BCApproval + ", approval=" + approval + ", grade=" + grade + "]";
+				+ ", eventtype=" + eventtype + ", submissionDate=" + submissionDate + ", supervisorApproval="
+				+ supervisorApproval + ", deptHeadApproval=" + deptHeadApproval + ", BCApproval=" + BCApproval
+				+ ", status=" + status + ", grade=" + grade + ", gradeFormatID=" + gradeFormatID + ", justification="
+				+ justification + ", reimbursement=" + reimbursement + "]";
 	}
 
 	

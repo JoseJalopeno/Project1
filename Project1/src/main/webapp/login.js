@@ -13,8 +13,8 @@ function checkLogin() {
   xhttp.onreadystatechange = () => {
     if (xhttp.readyState == 4) {
       if (xhttp.status == 200) {
-        console.log(xhttp.readyState);
-        console.log(xhttp.status);
+        // console.log(xhttp.readyState);
+        // console.log(xhttp.status);
         //if login is good from servlet we go to the next page
         window.location.href = url + xhttp.responseText;
         //console.log(xhttp.responseText);

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <title>Add Reimbursement Request</title>
+  </head>
+  <body onload="populate()">
+    <form>
+      <div class="mb-3">
+        Event Date:
+        <input type="datetime-local" id="eventDate" class="form-control">
+        <!-- Start Time: <input type="time" id="startTime" class="form-control"> -->
+        Location:
+        <input type="text" id="location" class="form-control">
+        Description:
+        <input type="text" id="description" class="form-control">
+        Event Cost:
+        <input type="text" id="eventCost" class="form-control">
+        Grade Format:
+        <input type="text" id="gradeFormat" class="form-control">
+        <!-- need to make this a dropdown -->
+        Event Type:
+        <input type="text" id="eventType" class="form-control">
+        Justification:
+        <input type="text" id="justification" class="form-control">
+        <!-- need to make this a dropdown -->
+        Reimbursement:
+        <input type="text" id="reimbursement" class="form-control">
+        <!-- need to make this a dropdown -->
+      </div>
+      <button type="button" class="btn btn-primary" onclick="sendData()">Submit</button>
+    </form>
+    <script type="text/javascript" src="addForm.js"></script>
+  </body>
+</html>
+
+<!-- Approvals will be false by default -->
+<!-- Status will be pending by default -->
+<!-- Grade will be empty by default -->

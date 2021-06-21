@@ -9,3 +9,10 @@ body {
 #content2 {
   text-align: center;
 }
+table, th, td{
+  border: 1px solid black;
+}
+form {
+  max-width: 1000px;
+  margin: auto;
+}
