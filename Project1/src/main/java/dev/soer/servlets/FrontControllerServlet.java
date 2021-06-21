@@ -5,6 +5,7 @@ import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +24,11 @@ import dev.soer.beans.Form;
 import dev.soer.beans.GradeFormats;
 import dev.soer.beans.Justifications;
 import dev.soer.beans.Reimbursements;
+import dev.soer.data.JustificationsHibernate;
 import dev.soer.services.EmployeeServices;
 import dev.soer.services.FormServices;
+import dev.soer.services.GradeFormatsServices;
+import dev.soer.services.JustificationsServices;
 
 
 public class FrontControllerServlet extends HttpServlet{
@@ -36,6 +40,8 @@ public class FrontControllerServlet extends HttpServlet{
 	
 	private EmployeeServices es = new EmployeeServices();
 	private FormServices fs = new FormServices();
+	private JustificationsServices js = new JustificationsServices();
+	private GradeFormatsServices gfs = new GradeFormatsServices();
 
 	Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm").create();
 	static HttpSession session; 
@@ -67,7 +73,7 @@ public class FrontControllerServlet extends HttpServlet{
 			}
 			case "homepage": {
 				//this sends the user to the homepage to get data for it
-				response.getWriter().append(gson.toJson(em));
+				response.getWriter().append(gson.toJson(session.getAttribute("logged_in")));
 				break;
 			}
 			case "addForm": {
@@ -75,6 +81,11 @@ public class FrontControllerServlet extends HttpServlet{
 				fs.add(newForm);
 				response.getWriter().append("/Project1/homepage.html");
 				break;
+			}
+			case "grabData": {
+				List<Justifications> j = js.getAll();
+				List<GradeFormats> gf = gfs.getAll();
+				
 			}
 			default: {
 				System.out.println("Reached default case");
