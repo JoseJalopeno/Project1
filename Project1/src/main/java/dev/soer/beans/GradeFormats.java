@@ -8,19 +8,18 @@ import javax.persistence.*;
 public class GradeFormats {
 	@Id
 	@Column(name ="id", insertable = false, updatable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@Column(name = "gradeformat")
-	private String name;
+	private String gradeformat;
 	
 	public GradeFormats() {
 		super();
 	}
 
-	public GradeFormats(Integer id, String name) {
+	public GradeFormats(Integer id, String gradeformat) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.gradeformat = gradeformat;
 	}
 
 	public Integer getId() {
@@ -31,12 +30,12 @@ public class GradeFormats {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getGradeformat() {
+		return gradeformat;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setGradeformat(String gradeformat) {
+		this.gradeformat = gradeformat;
 	}
 
 	@Override
@@ -44,7 +43,7 @@ public class GradeFormats {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((gradeformat == null) ? 0 : gradeformat.hashCode());
 		return result;
 	}
 
@@ -62,16 +61,16 @@ public class GradeFormats {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (name == null) {
-			if (other.name != null)
+		if (gradeformat == null) {
+			if (other.gradeformat != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!gradeformat.equals(other.gradeformat))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "GradeFormats [id=" + id + ", name=" + name + "]";
+		return "GradeFormats [id=" + id + ", gradeformat=" + gradeformat + "]";
 	}
 }

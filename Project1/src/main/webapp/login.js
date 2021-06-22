@@ -6,9 +6,9 @@ function checkLogin() {
     password: document.getElementById("password").value
   };
   //convert to a json object
-  console.log(loginObject);
+  //console.log(loginObject);
   let json = JSON.stringify(loginObject);
-  console.log(json);
+  //console.log(json);
   let xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = () => {
     if (xhttp.readyState == 4) {

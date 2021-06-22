@@ -6,20 +6,19 @@ import javax.persistence.*;
 public class Reimbursements {
 	@Id
 	@Column(name ="id", insertable = false, updatable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@Column(name = "reimbursement")
-	private String name;
+	private String reimbursement;
 	private Double percent;
 	
 	public Reimbursements() {
 		super();
 	}
 
-	public Reimbursements(Integer id, String name, Double percent) {
+	public Reimbursements(Integer id, String reimbursement, Double percent) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.reimbursement = reimbursement;
 		this.percent = percent;
 	}
 
@@ -31,12 +30,12 @@ public class Reimbursements {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getReimbursement() {
+		return reimbursement;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setReimbursement(String reimbursement) {
+		this.reimbursement = reimbursement;
 	}
 
 	public Double getPercent() {
@@ -52,7 +51,7 @@ public class Reimbursements {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((reimbursement == null) ? 0 : reimbursement.hashCode());
 		result = prime * result + ((percent == null) ? 0 : percent.hashCode());
 		return result;
 	}
@@ -71,10 +70,10 @@ public class Reimbursements {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (name == null) {
-			if (other.name != null)
+		if (reimbursement == null) {
+			if (other.reimbursement != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!reimbursement.equals(other.reimbursement))
 			return false;
 		if (percent == null) {
 			if (other.percent != null)
@@ -86,7 +85,7 @@ public class Reimbursements {
 
 	@Override
 	public String toString() {
-		return "Reimbursements [id=" + id + ", name=" + name + ", percent=" + percent + "]";
+		return "Reimbursements [id=" + id + ", reimbursement=" + reimbursement + ", percent=" + percent + "]";
 	}
 	
 }

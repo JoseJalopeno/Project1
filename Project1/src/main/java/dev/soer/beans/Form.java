@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class Form {
 	@Id
 	@Column(name ="id", insertable = false, updatable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private Integer empID;
 	private Date eventDate;
@@ -325,4 +325,3 @@ public class Form {
 
 	
 }
-	

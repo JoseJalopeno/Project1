@@ -29,6 +29,7 @@ import dev.soer.services.EmployeeServices;
 import dev.soer.services.FormServices;
 import dev.soer.services.GradeFormatsServices;
 import dev.soer.services.JustificationsServices;
+import dev.soer.services.ReimbursementsServices;
 
 
 public class FrontControllerServlet extends HttpServlet{
@@ -42,6 +43,7 @@ public class FrontControllerServlet extends HttpServlet{
 	private FormServices fs = new FormServices();
 	private JustificationsServices js = new JustificationsServices();
 	private GradeFormatsServices gfs = new GradeFormatsServices();
+	private ReimbursementsServices rs = new ReimbursementsServices();
 
 	Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm").create();
 	static HttpSession session; 
@@ -73,19 +75,26 @@ public class FrontControllerServlet extends HttpServlet{
 			}
 			case "homepage": {
 				//this sends the user to the homepage to get data for it
-				response.getWriter().append(gson.toJson(session.getAttribute("logged_in")));
+				response.getWriter().append(gson.toJson(em));
 				break;
 			}
 			case "addForm": {
 				Form newForm = this.gson.fromJson(request.getReader(), Form.class);
 				fs.add(newForm);
+				em.getForms().add(newForm);
+				em.setBalance(em.getBalance() - (newForm.getEventCost() * newForm.getReimbursement().getPercent()));
+				System.out.println(newForm);
 				response.getWriter().append("/Project1/homepage.html");
 				break;
 			}
 			case "grabData": {
 				List<Justifications> j = js.getAll();
 				List<GradeFormats> gf = gfs.getAll();
-				
+				List<Reimbursements> r = rs.getAll();
+				String[] jsons = {this.gson.toJson(j), this.gson.toJson(gf), this.gson.toJson(r), this.gson.toJson(session.getAttribute("logged_in"))};
+				String json = gson.toJson(jsons);
+				response.getWriter().append(json);
+				break;
 			}
 			default: {
 				System.out.println("Reached default case");

@@ -12,7 +12,7 @@ function getData() {
         //and allow them to look at all of their forms submitted
         let r = xhttp.responseText;
         r = JSON.parse(r);
-        console.log(r);
+        //console.log(r);
         //get name
         let name = r.firstName + " " + r.lastName;
         let hello = document.createElement("h1");
@@ -20,15 +20,9 @@ function getData() {
         page.append(hello);
         //get balance
         let forms = r.forms;
-        let used = 0;
-        for (form of forms) {
-          used += form.eventCost * form.reimbursement.percent * 1;
-          console.log(used);
-        }
-        //console.log(temp);
-        let uBalance = r.balance - used;
+        console.log(forms);
         let balance = document.createElement("h3");
-        balance.innerHTML = "Balance: $" + uBalance;
+        balance.innerHTML = "Balance: $" + r.balance;
         page.append(balance);
         //get all forms
         let formTable = document.createElement("table");
@@ -74,15 +68,15 @@ function getData() {
           tr.appendChild(eventCost);
 
           let gradeFormat = document.createElement("td");
-          gradeFormat.innerHTML = form.gradeFormatID.name;
+          gradeFormat.innerHTML = form.gradeFormatID.gradeFormat;
           tr.appendChild(gradeFormat);
 
           let eventType = document.createElement("td");
-          eventType.innerHTML = form.eventType;
+          eventType.innerHTML = form.eventtype;
           tr.appendChild(eventType);
 
           let justification = document.createElement("td");
-          justification.innerHTML = form.justification.name;
+          justification.innerHTML = form.justification.justification;
           tr.appendChild(justification);
 
           let submissionDate = document.createElement("td");
@@ -107,4 +101,8 @@ function getData() {
 
 function redirect() {
   window.location.href = "http://localhost:8080/Project1/addForm.html";
+}
+
+function reload() {
+  getData();
 }
