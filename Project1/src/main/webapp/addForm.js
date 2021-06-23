@@ -1,18 +1,16 @@
 function sendData() {
   let url = "http://localhost:8080";
 
-  let justification = JSON.parse(
-    document.getElementById("justification").value
-  );
+  // let justification = JSON.parse(
+  //   document.getElementById("justification").value
+  // );
+  //
+  // let reimbursement = JSON.parse(
+  //   document.getElementById("reimbursement").value
+  // );
+  //
+  // let gradeFormatID = JSON.parse(document.getElementById("gradeFormat").value);
 
-  let reimbursement = JSON.parse(
-    document.getElementById("reimbursement").value
-  );
-
-  let gradeFormatID = JSON.parse(document.getElementById("gradeFormat").value);
-  console.log(justification);
-  console.log(reimbursement);
-  console.log(gradeFormatID);
   let addObject = {
     //id: take care of by database
     empID: document.getElementById("employeeID").value,
@@ -20,11 +18,11 @@ function sendData() {
     location: document.getElementById("location").value,
     description: document.getElementById("description").value,
     eventCost: document.getElementById("eventCost").value,
-    gradeFormatID,
+    gradeformat: document.getElementById("gradeFormat").value,
     eventtype: document.getElementById("eventType").value,
-    justification,
+    justification: document.getElementById("justification").value,
     submissiondate: Date.now(),
-    reimbursement,
+    reimbursement: document.getElementById("reimbursement").value,
     supervisorApproval: false,
     deptHeadApproval: false,
     benefitscoordinatorApproval: false,
@@ -90,8 +88,8 @@ function populate() {
         for (let i in justifications) {
           let just = justifications[i];
           let option = document.createElement("option");
-          let just2 = JSON.stringify(just);
-          option.setAttribute("value", just2);
+          //let just2 = JSON.stringify(just);
+          option.setAttribute("value", just.id);
           option.innerHTML = just.justification;
           justDrop.appendChild(option);
         }
@@ -99,8 +97,8 @@ function populate() {
         for (let i in gradeformats) {
           let gf = gradeformats[i];
           let option = document.createElement("option");
-          let gf2 = JSON.stringify(gf);
-          option.setAttribute("value", gf2);
+          //let gf2 = JSON.stringify(gf);
+          option.setAttribute("value", gf.id);
           option.innerHTML = gf.gradeformat;
           gradeFormDrop.appendChild(option);
         }
@@ -108,8 +106,8 @@ function populate() {
         for (let i in reimbursements) {
           let r = reimbursements[i];
           let option = document.createElement("option");
-          let r2 = JSON.stringify(r);
-          option.setAttribute("value", r2);
+          //let r2 = JSON.stringify(r);
+          option.setAttribute("value", r.id);
           option.innerHTML = r.reimbursement + ": " + r.percent * 100 + "%";
           reimburseDrop.appendChild(option);
         }

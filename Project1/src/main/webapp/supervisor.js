@@ -120,7 +120,3 @@ function getData() {
 function redirect() {
   window.location.href = "http://localhost:8080/Project1/addForm.html";
 }
-
-function reload() {
-  getData();
-}

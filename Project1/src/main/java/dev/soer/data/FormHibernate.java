@@ -1,20 +1,15 @@
 package dev.soer.data;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
 import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import dev.soer.beans.Employee;
 import dev.soer.beans.Form;
 import dev.soer.services.EmployeeServices;
 import dev.soer.utils.HibernateUtil;
-import dev.soer.utils.JDBCConnection;
 
 public class FormHibernate implements GenericRepo<Form> {
 	EmployeeServices es = new EmployeeServices();

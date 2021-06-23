@@ -7,8 +7,8 @@ import javax.persistence.*;
 @Table(name = "\"project1\".gradeformats")
 public class GradeFormats {
 	@Id
-	@Column(name ="id", insertable = false, updatable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name ="id", insertable = true, updatable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	private String gradeformat;
 	

@@ -25,22 +25,22 @@ public class Form {
 	private boolean BCApproval;
 	private String status;
 	private String grade;
-	@ManyToOne
-	@JoinColumn(name = "gradeformat", insertable = false, updatable = false)
-	private GradeFormats gradeFormatID;
-	@ManyToOne
-	@JoinColumn(name = "justification", insertable = false, updatable = false)
-	private Justifications justification;
-	@ManyToOne
-	@JoinColumn(name = "reimbursement", insertable = false, updatable = false)
-	private Reimbursements reimbursement;
+//	@ManyToOne
+//	@JoinColumn(name = "gradeformat", insertable = false, updatable = false)
+	private Integer gradeformat;
+//	@ManyToOne
+//	@JoinColumn(name = "justification", insertable = false, updatable = false)
+	private Integer justification;
+//	@ManyToOne
+//	@JoinColumn(name = "reimbursement", insertable = false, updatable = false)
+	private Integer reimbursement;
 	public Form() {
 		super();
 	}
 
 	public Form(Integer id, Integer empID, Date eventDate, String location,
-			String description, Double eventCost, GradeFormats gradeFormatID, String eventtype,
-			Justifications justification, Date submissionDate, Reimbursements reimbursement,
+			String description, Double eventCost, Integer gradeFormatID, String eventtype,
+			Integer justification, Date submissionDate, Integer reimbursement,
 			boolean supervisorApproval, boolean deptHeadApproval, boolean bCApproval, String status, String grade) {
 		super();
 		this.id = id;
@@ -49,7 +49,7 @@ public class Form {
 		this.location = location;
 		this.description = description;
 		this.eventCost = eventCost;
-		this.gradeFormatID = gradeFormatID;
+		this.gradeformat = gradeFormatID;
 		this.eventtype = eventtype;
 		this.justification = justification;
 		this.submissionDate = submissionDate;
@@ -109,12 +109,12 @@ public class Form {
 		this.eventCost = eventCost;
 	}
 
-	public GradeFormats getGradeFormatID() {
-		return gradeFormatID;
+	public Integer getGradeFormat() {
+		return gradeformat;
 	}
 
-	public void setGradeFormatID(GradeFormats gradeFormatID) {
-		this.gradeFormatID = gradeFormatID;
+	public void setGradeFormat(Integer gradeFormatID) {
+		this.gradeformat = gradeFormatID;
 	}
 
 	public String getEventtype() {
@@ -125,11 +125,11 @@ public class Form {
 		this.eventtype = eventype;
 	}
 
-	public Justifications getJustification() {
+	public Integer getJustification() {
 		return justification;
 	}
 
-	public void setJustification(Justifications justification) {
+	public void setJustification(Integer justification) {
 		this.justification = justification;
 	}
 
@@ -141,11 +141,11 @@ public class Form {
 		this.submissionDate = submissionDate;
 	}
 
-	public Reimbursements getReimbursement() {
+	public Integer getReimbursement() {
 		return reimbursement;
 	}
 
-	public void setReimbursementID(Reimbursements reimbursement) {
+	public void setReimbursementID(Integer reimbursement) {
 		this.reimbursement = reimbursement;
 	}
 
@@ -181,10 +181,6 @@ public class Form {
 		this.status = status;
 	}
 
-	public void setReimbursement(Reimbursements reimbursement) {
-		this.reimbursement = reimbursement;
-	}
-
 	public String getGrade() {
 		return grade;
 	}
@@ -213,7 +209,7 @@ public class Form {
 		result = prime * result + ((eventDate == null) ? 0 : eventDate.hashCode());
 		result = prime * result + ((eventtype == null) ? 0 : eventtype.hashCode());
 		result = prime * result + ((grade == null) ? 0 : grade.hashCode());
-		result = prime * result + ((gradeFormatID == null) ? 0 : gradeFormatID.hashCode());
+		result = prime * result + ((gradeformat == null) ? 0 : gradeformat.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((justification == null) ? 0 : justification.hashCode());
 		result = prime * result + ((location == null) ? 0 : location.hashCode());
@@ -268,10 +264,10 @@ public class Form {
 				return false;
 		} else if (!grade.equals(other.grade))
 			return false;
-		if (gradeFormatID == null) {
-			if (other.gradeFormatID != null)
+		if (gradeformat == null) {
+			if (other.gradeformat != null)
 				return false;
-		} else if (!gradeFormatID.equals(other.gradeFormatID))
+		} else if (!gradeformat.equals(other.gradeformat))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -319,7 +315,7 @@ public class Form {
 				+ ", location=" + location + ", description=" + description + ", eventCost=" + eventCost
 				+ ", eventtype=" + eventtype + ", submissionDate=" + submissionDate + ", supervisorApproval="
 				+ supervisorApproval + ", deptHeadApproval=" + deptHeadApproval + ", BCApproval=" + BCApproval
-				+ ", status=" + status + ", grade=" + grade + ", gradeFormatID=" + gradeFormatID + ", justification="
+				+ ", status=" + status + ", grade=" + grade + ", gradeFormatID=" + gradeformat + ", justification="
 				+ justification + ", reimbursement=" + reimbursement + "]";
 	}
 

@@ -66,7 +66,20 @@ public class FrontControllerServlet extends HttpServlet{
 					System.out.println("Employee: " + em.getFirstName() + " " + em.getLastName() + " logged in.");
 					//set session to user
 					session.setAttribute("logged_in", em);
-					response.getWriter().append("/Project1/homepage.html");
+					//checks on the employees type and then redirects to appropiate page
+					if(em.getEmployeeType().getEmployeeType().equalsIgnoreCase("Associate")) {
+						response.getWriter().append("/Project1/homepage.html");
+					} 
+					else if(em.getEmployeeType().getEmployeeType().equalsIgnoreCase("Supervisor")) {
+						response.getWriter().append("/Project1/supervisor.html");
+					}
+					else if(em.getEmployeeType().getEmployeeType().equalsIgnoreCase("Department Head")) {
+						response.getWriter().append("/Project1/depthead.html");
+					}
+					else if(em.getEmployeeType().getEmployeeType().equalsIgnoreCase("Benefits Coordinator")) {
+						response.getWriter().append("/Project1/benefitscoord.html");
+					}
+					
 				}
 				else {
 					System.out.println("Error employee is null");
@@ -75,14 +88,20 @@ public class FrontControllerServlet extends HttpServlet{
 			}
 			case "homepage": {
 				//this sends the user to the homepage to get data for it
-				response.getWriter().append(gson.toJson(em));
+				List<Justifications> j = js.getAll();
+				List<GradeFormats> gf = gfs.getAll();
+				List<Reimbursements> r = rs.getAll();
+				String[] jsons = {this.gson.toJson(j), this.gson.toJson(gf), this.gson.toJson(r), this.gson.toJson(session.getAttribute("logged_in"))};
+				String json = gson.toJson(jsons);
+				response.getWriter().append(json);
 				break;
 			}
 			case "addForm": {
 				Form newForm = this.gson.fromJson(request.getReader(), Form.class);
 				fs.add(newForm);
 				em.getForms().add(newForm);
-				em.setBalance(em.getBalance() - (newForm.getEventCost() * newForm.getReimbursement().getPercent()));
+				//em.setBalance(em.getBalance() - (newForm.getEventCost() * newForm.getReimbursement()));
+				es.update(em);
 				System.out.println(newForm);
 				response.getWriter().append("/Project1/homepage.html");
 				break;

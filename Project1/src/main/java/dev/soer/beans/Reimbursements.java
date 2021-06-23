@@ -5,8 +5,8 @@ import javax.persistence.*;
 @Table(name = "\"project1\".reimbursements")
 public class Reimbursements {
 	@Id
-	@Column(name ="id", insertable = false, updatable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name ="id", insertable = true, updatable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	private String reimbursement;
 	private Double percent;
