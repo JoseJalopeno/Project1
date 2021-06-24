@@ -2,6 +2,7 @@ package dev.soer.services;
 
 import java.util.List;
 
+
 import dev.soer.beans.Form;
 import dev.soer.data.FormHibernate;
 
@@ -38,6 +39,21 @@ public class FormServices implements GenericServices<Form> {
 	@Override
 	public boolean delete(Form t) {
 		return fh.remove(t);
+	}
+	
+	public List<Form> getSupervisorUnapproved() {
+		List<Form> forms = fh.getSupervisorUnapproved();
+		return forms;
+	}
+	
+	public List<Form> getDeptHeadUnapproved() {
+		List<Form> forms = fh.getDeptHeadUnapproved();
+		return forms;
+	}
+	
+	public List<Form> getBCUnapproved() {
+		List<Form> forms = fh.getBCUnapproved();
+		return forms;
 	}
 
 }

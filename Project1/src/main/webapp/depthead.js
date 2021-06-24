@@ -1,5 +1,5 @@
 function getData() {
-  let url = "http://localhost:8080/Project1/controller/homepage";
+  let url = "http://localhost:8080/Project1/controller/depthead";
 
   let page = document.getElementById("page");
   let xhttp = new XMLHttpRequest();
@@ -10,48 +10,31 @@ function getData() {
         //returns info about the user, this page will allow user to add a new reimbursement form
         //and allow them to look at all of their forms submitted
         let r = xhttp.responseText;
-        r = JSON.parse(r);
+        let rs = JSON.parse(r);
         // get the names of each object
-        let justifications = JSON.parse(r[0]);
-        let gradeformats = JSON.parse(r[1]);
-        let reimbursements = JSON.parse(r[2]);
-        let userInfo = JSON.parse(r[3]);
-        // console.log(justifications);
-        // console.log(gradeformats);
-        console.log(reimbursements);
-        console.log(userInfo);
+        let justifications = JSON.parse(rs[0]);
+        let gradeformats = JSON.parse(rs[1]);
+        let reimbursements = JSON.parse(rs[2]);
+        let unapprovedForms = JSON.parse(rs[3]);
+        let userInfo = JSON.parse(rs[4]);
+        let employees = JSON.parse(rs[5]);
+        //console.log(unapprovedForms);
         //get name
         let name = userInfo.firstName + " " + userInfo.lastName;
         let hello = document.createElement("h1");
         hello.innerHTML = "Hello: " + name;
         page.append(hello);
-        let forms = userInfo.forms;
+
         //get balance
         let balance = document.createElement("h3");
-        // let used = 0;
-        // let tempPercent;
-        // for (let x of forms) {
-        //   //grab the reimbursement percent
-        //   for (let i in reimbursements) {
-        //     if (reimbursements[i].id == x.reimbursement) {
-        //       // console.log("Reimbursement id and form reimbursement: " + reimbursements[i].id + " " + x.reimbursement);
-        //       tempPercent = reimbursements[i].percent;
-        //     }
-        //   }
-        //   // console.log(tempPercent);
-        //   used += x.eventCost * tempPercent * 1;
-        //   // console.log(used);
-        // }
         balance.innerHTML = "Balance: $" + userInfo.balance;
         page.append(balance);
-        // let newBalance = userInfo.balance - used;
-        // json = JSON.stringify(newBalance);
-        // console.log(json);
         //get all forms from user
         let formTable = document.createElement("table");
         //create table header row
         let thRow = document.createElement("tr");
         let tHeaders = [
+          "Employee Name",
           "Event Date",
           "Location",
           "Description",
@@ -64,7 +47,8 @@ function getData() {
           "Supervisor Approval",
           "Dept. Head Approval",
           "Benefits Coordinator Approval",
-          "Grade"
+          "Grade",
+          "Action"
         ];
         //populate a table with the headers
         for (let h of tHeaders) {
@@ -73,11 +57,21 @@ function getData() {
           thRow.appendChild(th);
         }
         formTable.append(thRow);
-        // iterate through the forms to put them on the screen
-
-        //console.log(forms);
+        //get the forms to put them on screen
+        let forms = unapprovedForms;
         for (let form of forms) {
           let tr = document.createElement("tr");
+          //employee name on form
+          let tdemployeeName = document.createElement("td");
+          let empNameTemp;
+          for (let i in employees) {
+            if (employees[i].id == form.empID) {
+              empNameTemp =
+                employees[i].firstName + " " + employees[i].lastName;
+            }
+          }
+          tdemployeeName.innerHTML = empNameTemp;
+          tr.appendChild(tdemployeeName);
           //event date and time
           let tdeventDate = document.createElement("td");
           tdeventDate.innerHTML = form.eventDate;
@@ -144,6 +138,37 @@ function getData() {
           let tdgrade = document.createElement("td");
           tdgrade.innerHTML = form.grade;
           tr.appendChild(tdgrade);
+          // create new td for select
+          let tdSelect = document.createElement("td");
+          //action - create select
+          let tdactionSelect = document.createElement("select");
+          tdactionSelect.setAttribute("id", "action");
+          // approve
+          let tdactionApprove = document.createElement("option");
+          tdactionApprove.setAttribute("value", "Approve");
+          tdactionApprove.innerHTML = "Approve";
+          tdactionSelect.appendChild(tdactionApprove);
+          // request more info
+          let tdactionRequest = document.createElement("option");
+          tdactionRequest.setAttribute("value", "Request");
+          tdactionRequest.innerHTML = "Request more info";
+          tdactionSelect.appendChild(tdactionRequest);
+          // deny request
+          let tdactionDeny = document.createElement("option");
+          tdactionDeny.setAttribute("value", "Deny");
+          tdactionDeny.innerHTML = "Deny";
+          tdactionSelect.appendChild(tdactionDeny);
+          // attach select to td
+          tdSelect.appendChild(tdactionSelect);
+          tr.appendChild(tdSelect);
+          // create a new button that will send the action to backend
+          let tdButton = document.createElement("td");
+          let button = document.createElement("button");
+          button.setAttribute("onclick", "sendAction(" + form.id + ")");
+          button.innerHTML = "Send";
+          //attach button to td
+          tdButton.appendChild(button);
+          tr.appendChild(tdButton);
 
           //add the row to the table
           formTable.appendChild(tr);
@@ -160,4 +185,27 @@ function getData() {
 
 function redirect() {
   window.location.href = "http://localhost:8080/Project1/addForm.html";
+}
+
+function sendAction(formId) {
+  let url = "http://localhost:8080";
+
+  let sendObj = {
+    action: document.getElementById("action").value,
+    formid: formId
+  };
+  console.log(sendObj);
+  let json = JSON.stringify(sendObj);
+  let xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = () => {
+    if (xhttp.readyState == 4) {
+      if (xhttp.status == 200) {
+        window.location.href = url + xhttp.responseText;
+      }
+    }
+  };
+
+  xhttp.open("POST", url + "/Project1/controller/deptheadApproval", true);
+
+  xhttp.send(json);
 }

@@ -1,18 +1,10 @@
 function sendData() {
   let url = "http://localhost:8080";
 
-  // let justification = JSON.parse(
-  //   document.getElementById("justification").value
-  // );
-  //
-  // let reimbursement = JSON.parse(
-  //   document.getElementById("reimbursement").value
-  // );
-  //
-  // let gradeFormatID = JSON.parse(document.getElementById("gradeFormat").value);
+  let date = getDateTime();
 
   let addObject = {
-    //id: take care of by database
+    //id: taken care of by database
     empID: document.getElementById("employeeID").value,
     eventDate: document.getElementById("eventDate").value,
     location: document.getElementById("location").value,
@@ -21,7 +13,7 @@ function sendData() {
     gradeformat: document.getElementById("gradeFormat").value,
     eventtype: document.getElementById("eventType").value,
     justification: document.getElementById("justification").value,
-    submissiondate: Date.now(),
+    submissionDate: date,
     reimbursement: document.getElementById("reimbursement").value,
     supervisorApproval: false,
     deptHeadApproval: false,
@@ -29,7 +21,13 @@ function sendData() {
     status: "Pending",
     grade: "NA"
   };
-  console.log(addObject);
+
+  // let deductBalance = {
+  //   balance: (document.getElementById("eventCost").value * document.getElementById("percent").value)*1
+  // };
+  // console.log(document.getElementById("eventCost").value);
+  // console.log(document.getElementById("percent").value);
+  // console.log(deductBalance);
 
   // console.log(addObject);
   let json = JSON.stringify(addObject);
@@ -82,6 +80,7 @@ function populate() {
         let employeeID = document.getElementById("employeeID");
         employeeID.setAttribute("value", userID);
         //console.log(employeeID);
+
         let maxCost = document.getElementById("eventCost");
         maxCost.setAttribute("max", user.balance);
 
@@ -108,6 +107,7 @@ function populate() {
           let option = document.createElement("option");
           //let r2 = JSON.stringify(r);
           option.setAttribute("value", r.id);
+          option.setAttribute("percent", r.percent);
           option.innerHTML = r.reimbursement + ": " + r.percent * 100 + "%";
           reimburseDrop.appendChild(option);
         }
@@ -117,4 +117,27 @@ function populate() {
   xhttp.open("GET", url + "/Project1/controller/grabData", true);
   //send the json object back to the servlet
   xhttp.send();
+}
+
+function getDateTime() {
+  var now = new Date();
+  var year = now.getFullYear();
+  var month = now.getMonth() + 1;
+  var day = now.getDate();
+  var hour = now.getHours();
+  var minute = now.getMinutes();
+  if (month.toString().length == 1) {
+    month = "0" + month;
+  }
+  if (day.toString().length == 1) {
+    day = "0" + day;
+  }
+  if (hour.toString().length == 1) {
+    hour = "0" + hour;
+  }
+  if (minute.toString().length == 1) {
+    minute = "0" + minute;
+  }
+  var dateTime = year + "-" + month + "-" + day + "T" + hour + ":" + minute;
+  return dateTime;
 }

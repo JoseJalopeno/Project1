@@ -11,7 +11,7 @@ import org.hibernate.Transaction;
 import dev.soer.beans.Employee;
 import dev.soer.utils.HibernateUtil;
 
-public class EmployeeHibernate implements GenericRepo<Employee>{
+public class EmployeeHibernate implements GenericRepo<Employee> {
 
 	@Override
 	public Employee add(Employee em) {
@@ -33,9 +33,15 @@ public class EmployeeHibernate implements GenericRepo<Employee>{
 	@Override
 	public Employee getById(Integer id) {
 		Session s = HibernateUtil.getSession();
-		Employee e = s.get(Employee.class, id);
-		s.close();
-		return e;
+		Employee em = null;
+		try {
+			em = s.get(Employee.class, id);
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} finally {
+			s.close();
+		}
+		return em;
 	}
 
 	@Override
@@ -49,7 +55,7 @@ public class EmployeeHibernate implements GenericRepo<Employee>{
 			Predicate p1 = cb.equal(root.get("username"), user);
 			Predicate p2 = cb.equal(root.get("password"), pass);
 			cr.select(root).where(cb.and(p1, p2));
-			
+
 			em = s.createQuery(cr).getSingleResult();
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -60,15 +66,15 @@ public class EmployeeHibernate implements GenericRepo<Employee>{
 	@Override
 	public List<Employee> getAll() {
 		Session s = HibernateUtil.getSession();
-		List<Employee> forms = null;
+		List<Employee> employees = null;
 		try {
-			forms = s.createQuery("FROM employees").list();
+			employees = s.createQuery("FROM employees").list();
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		} finally {
 			s.close();
 		}
-		return forms;
+		return employees;
 
 	}
 
@@ -78,7 +84,7 @@ public class EmployeeHibernate implements GenericRepo<Employee>{
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
-			s.update(em);
+			s.merge(em);
 			tx.commit();
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -105,12 +111,6 @@ public class EmployeeHibernate implements GenericRepo<Employee>{
 			s.close();
 		}
 		return true;
-	}
-	
-	public static void main(String[] args) {
-		EmployeeHibernate eh = new EmployeeHibernate();
-		Employee em = eh.get("jsoer", "password");
-		System.out.println(em);
 	}
 
 }

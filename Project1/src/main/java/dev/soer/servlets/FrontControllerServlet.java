@@ -39,6 +39,11 @@ public class FrontControllerServlet extends HttpServlet{
 		String password;
 	}
 	
+	class formUpdate {
+		String action;
+		int formid;
+	}
+	
 	private EmployeeServices es = new EmployeeServices();
 	private FormServices fs = new FormServices();
 	private JustificationsServices js = new JustificationsServices();
@@ -95,17 +100,25 @@ public class FrontControllerServlet extends HttpServlet{
 				String json = gson.toJson(jsons);
 				response.getWriter().append(json);
 				break;
-			}
+			}//adds new form to database and user (need to get the balance updated correctly
 			case "addForm": {
 				Form newForm = this.gson.fromJson(request.getReader(), Form.class);
+				double x = 0;
+				List<Reimbursements> r = rs.getAll();
+				for(Reimbursements rs : r) {
+					if(rs.getId() == newForm.getReimbursement()) {
+						x = rs.getPercent();
+					}
+				}
+				newForm.setEventCost(newForm.getEventCost() * x);
 				fs.add(newForm);
 				em.getForms().add(newForm);
-				//em.setBalance(em.getBalance() - (newForm.getEventCost() * newForm.getReimbursement()));
+				em.setBalance(em.getBalance() - newForm.getEventCost());
 				es.update(em);
 				System.out.println(newForm);
 				response.getWriter().append("/Project1/homepage.html");
 				break;
-			}
+			}//populates data in dropdowns
 			case "grabData": {
 				List<Justifications> j = js.getAll();
 				List<GradeFormats> gf = gfs.getAll();
@@ -113,6 +126,93 @@ public class FrontControllerServlet extends HttpServlet{
 				String[] jsons = {this.gson.toJson(j), this.gson.toJson(gf), this.gson.toJson(r), this.gson.toJson(session.getAttribute("logged_in"))};
 				String json = gson.toJson(jsons);
 				response.getWriter().append(json);
+				break;
+			}
+			case "supervisor": {
+				List<Employee> employees = es.getAll();
+				List<Form> supervisorForms = fs.getSupervisorUnapproved();
+				List<Justifications> j = js.getAll();
+				List<GradeFormats> gf = gfs.getAll();
+				List<Reimbursements> r = rs.getAll();
+				String[] jsons = {this.gson.toJson(j), this.gson.toJson(gf), this.gson.toJson(r), this.gson.toJson(supervisorForms), this.gson.toJson(session.getAttribute("logged_in")), this.gson.toJson(employees)};
+				String json = gson.toJson(jsons);
+				response.getWriter().append(json);
+				break;
+			}
+			case "supervisorApproval": {
+				formUpdate fUpdate = this.gson.fromJson(request.getReader(), formUpdate.class);
+				Form f = fs.getById(fUpdate.formid);
+				if(fUpdate.action.equalsIgnoreCase("Approve")) {
+					f.setStatus("Pending");
+					f.setSupervisorApproval(true);
+				}
+				else if(fUpdate.action.equalsIgnoreCase("Request")) {
+					f.setStatus(fUpdate.action);
+				}
+				else if(fUpdate.action.equalsIgnoreCase("Deny")) {
+					f.setStatus("Denied");
+				}
+				fs.update(f);
+				response.getWriter().append("/Project1/supervisor.html");
+				break;
+			}
+			case "depthead": {
+				List<Employee> employees = es.getAll();
+				List<Form> deptHeadForms = fs.getDeptHeadUnapproved();
+				List<Justifications> j = js.getAll();
+				List<GradeFormats> gf = gfs.getAll();
+				List<Reimbursements> r = rs.getAll();
+				String[] jsons = {this.gson.toJson(j), this.gson.toJson(gf), this.gson.toJson(r), this.gson.toJson(deptHeadForms), this.gson.toJson(session.getAttribute("logged_in")), this.gson.toJson(employees)};
+				String json = gson.toJson(jsons);
+				response.getWriter().append(json);
+				break;
+			}
+			case "deptheadApproval": {
+				formUpdate fUpdate = this.gson.fromJson(request.getReader(), formUpdate.class);
+				Form f = fs.getById(fUpdate.formid);
+				if(fUpdate.action.equalsIgnoreCase("Approve")) {
+					f.setSupervisorApproval(true);
+				}
+				else if(fUpdate.action.equalsIgnoreCase("Request")) {
+					f.setStatus(fUpdate.action);
+				}
+				else if(fUpdate.action.equalsIgnoreCase("Deny")) {
+					f.setStatus("Denied");
+				}
+				fs.update(f);
+				response.getWriter().append("/Project1/supervisor.html");
+				break;
+			}
+			case "benefits": {
+				List<Employee> employees = es.getAll();
+				List<Form> BCForms = fs.getBCUnapproved();
+				List<Justifications> j = js.getAll();
+				List<GradeFormats> gf = gfs.getAll();
+				List<Reimbursements> r = rs.getAll();
+				String[] jsons = {this.gson.toJson(j), this.gson.toJson(gf), this.gson.toJson(r), this.gson.toJson(BCForms), this.gson.toJson(session.getAttribute("logged_in")), this.gson.toJson(employees)};
+				String json = gson.toJson(jsons);
+				response.getWriter().append(json);
+				break;
+			}
+			case "bcApproval": {
+				formUpdate fUpdate = this.gson.fromJson(request.getReader(), formUpdate.class);
+				Form f = fs.getById(fUpdate.formid);
+				if(fUpdate.action.equalsIgnoreCase("Approve")) {
+					f.setSupervisorApproval(true);
+				}
+				else if(fUpdate.action.equalsIgnoreCase("Request")) {
+					f.setStatus(fUpdate.action);
+				}
+				else if(fUpdate.action.equalsIgnoreCase("Deny")) {
+					f.setStatus("Denied");
+				}
+				fs.update(f);
+				response.getWriter().append("/Project1/supervisor.html");
+				break;
+			}
+			case "logout": {
+				session.invalidate();
+				response.getWriter().append("/Project1/index.html");
 				break;
 			}
 			default: {
