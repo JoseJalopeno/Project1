@@ -159,6 +159,7 @@ public class FrontControllerServlet extends HttpServlet{
 			case "depthead": {
 				List<Employee> employees = es.getAll();
 				List<Form> deptHeadForms = fs.getDeptHeadUnapproved();
+				System.out.println(deptHeadForms);
 				List<Justifications> j = js.getAll();
 				List<GradeFormats> gf = gfs.getAll();
 				List<Reimbursements> r = rs.getAll();
@@ -171,7 +172,7 @@ public class FrontControllerServlet extends HttpServlet{
 				formUpdate fUpdate = this.gson.fromJson(request.getReader(), formUpdate.class);
 				Form f = fs.getById(fUpdate.formid);
 				if(fUpdate.action.equalsIgnoreCase("Approve")) {
-					f.setSupervisorApproval(true);
+					f.setDeptHeadApproval(true);
 				}
 				else if(fUpdate.action.equalsIgnoreCase("Request")) {
 					f.setStatus(fUpdate.action);
@@ -180,7 +181,7 @@ public class FrontControllerServlet extends HttpServlet{
 					f.setStatus("Denied");
 				}
 				fs.update(f);
-				response.getWriter().append("/Project1/supervisor.html");
+				response.getWriter().append("/Project1/depthead.html");
 				break;
 			}
 			case "benefits": {
@@ -198,7 +199,8 @@ public class FrontControllerServlet extends HttpServlet{
 				formUpdate fUpdate = this.gson.fromJson(request.getReader(), formUpdate.class);
 				Form f = fs.getById(fUpdate.formid);
 				if(fUpdate.action.equalsIgnoreCase("Approve")) {
-					f.setSupervisorApproval(true);
+					f.setBCApproval(true);
+					f.setStatus("Approved");
 				}
 				else if(fUpdate.action.equalsIgnoreCase("Request")) {
 					f.setStatus(fUpdate.action);
@@ -207,7 +209,7 @@ public class FrontControllerServlet extends HttpServlet{
 					f.setStatus("Denied");
 				}
 				fs.update(f);
-				response.getWriter().append("/Project1/supervisor.html");
+				response.getWriter().append("/Project1/benefitscoord.html");
 				break;
 			}
 			case "logout": {

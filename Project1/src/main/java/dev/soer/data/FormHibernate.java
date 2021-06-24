@@ -149,70 +149,32 @@ public class FormHibernate implements GenericRepo<Form> {
 		}
 		return forms;
 	}
-
+	
 	public List<Form> getDeptHeadUnapproved() {
-		List<Form> forms = new ArrayList<Form>();
-		String sql = "select * from forms where supervisorapproval = true and deptheadapproval = false";
+		Session s = HibernateUtil.getSession();
+		List<Form> forms = null;
 		try {
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ResultSet rs = ps.executeQuery();
-
-			while (rs.next()) {
-				Form f = new Form();
-				f.setId(rs.getInt("id"));
-				f.setEmpID(rs.getInt("empid"));
-				f.setEventDate((Date) rs.getObject("eventdate"));
-				f.setLocation(rs.getString("location"));
-				f.setDescription(rs.getString("description"));
-				f.setGradeFormat(rs.getInt("gradeformat"));
-				f.setEventtype(rs.getString("eventtype"));
-				f.setJustification(rs.getInt("justification"));
-				f.setSubmissionDate((Date) rs.getObject("submissiondate"));
-				f.setReimbursementID(rs.getInt("reimbursement"));
-				f.setSupervisorApproval(rs.getBoolean("supervisorapproval"));
-				f.setDeptHeadApproval(rs.getBoolean("deptheadapproval"));
-				f.setBCApproval(rs.getBoolean("benefitscoordinatorapproval"));
-				f.setStatus(rs.getString("status"));
-				f.setGrade(rs.getString("grade"));
-				forms.add(f);
-			}
-			return forms;
-		} catch (SQLException e) {
+			forms = s.createQuery("FROM forms where supervisorApproval = true and deptheadapproval = false").list();
+		} catch (HibernateException e) {
 			e.printStackTrace();
+		} finally {
+			s.close();
 		}
-		return null;
+		return forms;
 	}
-
+	
 	public List<Form> getBCUnapproved() {
-		List<Form> forms = new ArrayList<Form>();
-		String sql = "select * from forms where supervisorapproval = true and deptheadapproval = true and benefitscoordinatorapproval = false";
+		Session s = HibernateUtil.getSession();
+		List<Form> forms = null;
 		try {
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ResultSet rs = ps.executeQuery();
-
-			while (rs.next()) {
-				Form f = new Form();
-				f.setId(rs.getInt("id"));
-				f.setEmpID(rs.getInt("empid"));
-				f.setEventDate((Date) rs.getObject("eventdate"));
-				f.setLocation(rs.getString("location"));
-				f.setDescription(rs.getString("description"));
-				f.setGradeFormat(rs.getInt("gradeformat"));
-				f.setEventtype(rs.getString("eventtype"));
-				f.setJustification(rs.getInt("justification"));
-				f.setSubmissionDate((Date) rs.getObject("submissiondate"));
-				f.setReimbursementID(rs.getInt("reimbursement"));
-				f.setSupervisorApproval(rs.getBoolean("supervisorapproval"));
-				f.setDeptHeadApproval(rs.getBoolean("deptheadapproval"));
-				f.setBCApproval(rs.getBoolean("benefitscoordinatorapproval"));
-				f.setStatus(rs.getString("status"));
-				f.setGrade(rs.getString("grade"));
-				forms.add(f);
-			}
-			return forms;
-		} catch (SQLException e) {
+			forms = s.createQuery("FROM forms where supervisorapproval = true and deptheadapproval = true and benefitscoordinatorapproval = false").list();
+		} catch (HibernateException e) {
 			e.printStackTrace();
+		} finally {
+			s.close();
 		}
-		return null;
+		return forms;
 	}
+
+	
 }

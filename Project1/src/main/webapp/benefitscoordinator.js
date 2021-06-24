@@ -1,5 +1,5 @@
 function getData() {
-  let url = "http://localhost:8080/Project1/controller/depthead";
+  let url = "http://localhost:8080/Project1/controller/benefits";
 
   let page = document.getElementById("page");
   let xhttp = new XMLHttpRequest();
@@ -206,7 +206,7 @@ function sendAction(formId) {
     }
   };
 
-  xhttp.open("POST", url + "/Project1/controller/deptheadApproval", true);
+  xhttp.open("POST", url + "/Project1/controller/bcApproval", true);
 
   xhttp.send(json);
 }
