@@ -2,6 +2,7 @@ package dev.soer.servlets;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.Date;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.time.LocalDateTime;
@@ -42,6 +43,24 @@ public class FrontControllerServlet extends HttpServlet{
 	class formUpdate {
 		String action;
 		int formid;
+		String reason;
+	}
+	
+	class editForm {
+		int formid;
+	}
+	
+	class updateForm {
+		int formid;
+		Date eventDate;
+		String location;
+		String description;
+		Double eventCost;
+		int gradeformat;
+		String eventtype;
+		int justification;
+		int reimbursement;
+		String grade;
 	}
 	
 	private EmployeeServices es = new EmployeeServices();
@@ -53,6 +72,7 @@ public class FrontControllerServlet extends HttpServlet{
 	Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm").create();
 	static HttpSession session; 
 	static Employee em;
+	static int formid;
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String uri = request.getRequestURI();
@@ -142,6 +162,8 @@ public class FrontControllerServlet extends HttpServlet{
 			case "supervisorApproval": {
 				formUpdate fUpdate = this.gson.fromJson(request.getReader(), formUpdate.class);
 				Form f = fs.getById(fUpdate.formid);
+				Employee em = es.getById(f.getEmpID());
+				f.setReason(fUpdate.reason);
 				if(fUpdate.action.equalsIgnoreCase("Approve")) {
 					f.setStatus("Pending");
 					f.setSupervisorApproval(true);
@@ -151,6 +173,8 @@ public class FrontControllerServlet extends HttpServlet{
 				}
 				else if(fUpdate.action.equalsIgnoreCase("Deny")) {
 					f.setStatus("Denied");
+					em.setBalance(em.getBalance() + f.getEventCost());// gives the balance back to the employee if request is denied
+					es.update(em);
 				}
 				fs.update(f);
 				response.getWriter().append("/Project1/supervisor.html");
@@ -159,7 +183,7 @@ public class FrontControllerServlet extends HttpServlet{
 			case "depthead": {
 				List<Employee> employees = es.getAll();
 				List<Form> deptHeadForms = fs.getDeptHeadUnapproved();
-				System.out.println(deptHeadForms);
+				//System.out.println(deptHeadForms);
 				List<Justifications> j = js.getAll();
 				List<GradeFormats> gf = gfs.getAll();
 				List<Reimbursements> r = rs.getAll();
@@ -171,6 +195,8 @@ public class FrontControllerServlet extends HttpServlet{
 			case "deptheadApproval": {
 				formUpdate fUpdate = this.gson.fromJson(request.getReader(), formUpdate.class);
 				Form f = fs.getById(fUpdate.formid);
+				Employee em = es.getById(f.getEmpID());
+				f.setReason(fUpdate.reason);
 				if(fUpdate.action.equalsIgnoreCase("Approve")) {
 					f.setDeptHeadApproval(true);
 				}
@@ -179,6 +205,8 @@ public class FrontControllerServlet extends HttpServlet{
 				}
 				else if(fUpdate.action.equalsIgnoreCase("Deny")) {
 					f.setStatus("Denied");
+					em.setBalance(em.getBalance() + f.getEventCost());// gives the balance back to the employee if request is denied
+					es.update(em);
 				}
 				fs.update(f);
 				response.getWriter().append("/Project1/depthead.html");
@@ -198,6 +226,8 @@ public class FrontControllerServlet extends HttpServlet{
 			case "bcApproval": {
 				formUpdate fUpdate = this.gson.fromJson(request.getReader(), formUpdate.class);
 				Form f = fs.getById(fUpdate.formid);
+				Employee em = es.getById(f.getEmpID());
+				f.setReason(fUpdate.reason);
 				if(fUpdate.action.equalsIgnoreCase("Approve")) {
 					f.setBCApproval(true);
 					f.setStatus("Approved");
@@ -207,9 +237,41 @@ public class FrontControllerServlet extends HttpServlet{
 				}
 				else if(fUpdate.action.equalsIgnoreCase("Deny")) {
 					f.setStatus("Denied");
+					em.setBalance(em.getBalance() + f.getEventCost());// gives the balance back to the employee if request is denied
+					es.update(em);
 				}
 				fs.update(f);
 				response.getWriter().append("/Project1/benefitscoord.html");
+				break;
+			}
+			case "editForm" : {
+				Form f = fs.getById(formid);
+				String json = this.gson.toJson(f);
+				response.getWriter().append(json);
+				break;
+			}
+			case "sendID" : {
+				// this stores the id for the form to be edited in the formid static variable
+				//editForm will use this to then populate the data on the editForm.html page
+				editForm edit = this.gson.fromJson(request.getReader(), editForm.class);
+				formid = edit.formid;
+				break;
+			}
+			case "updateForm": {
+				updateForm uForm = this.gson.fromJson(request.getReader(), updateForm.class);
+				System.out.println("Update Form id: " + uForm.formid);
+				Form f = fs.getById(uForm.formid);
+				f.setEventDate(uForm.eventDate);
+				f.setLocation(uForm.location);
+				f.setDescription(uForm.description);
+				f.setEventCost(uForm.eventCost);
+				f.setGradeFormat(uForm.gradeformat);
+				f.setEventtype(uForm.eventtype);
+				f.setJustification(uForm.justification);
+				f.setReimbursementID(uForm.reimbursement);
+				f.setGrade(uForm.grade);
+				fs.update(f);
+				response.getWriter().append("/Project1/homepage.html");
 				break;
 			}
 			case "logout": {

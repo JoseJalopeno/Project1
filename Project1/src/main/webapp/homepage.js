@@ -16,10 +16,6 @@ function getData() {
         let gradeformats = JSON.parse(r[1]);
         let reimbursements = JSON.parse(r[2]);
         let userInfo = JSON.parse(r[3]);
-        // console.log(justifications);
-        // console.log(gradeformats);
-        console.log(reimbursements);
-        console.log(userInfo);
         //get name
         let name = userInfo.firstName + " " + userInfo.lastName;
         let hello = document.createElement("h1");
@@ -28,25 +24,8 @@ function getData() {
         let forms = userInfo.forms;
         //get balance
         let balance = document.createElement("h3");
-        // let used = 0;
-        // let tempPercent;
-        // for (let x of forms) {
-        //   //grab the reimbursement percent
-        //   for (let i in reimbursements) {
-        //     if (reimbursements[i].id == x.reimbursement) {
-        //       // console.log("Reimbursement id and form reimbursement: " + reimbursements[i].id + " " + x.reimbursement);
-        //       tempPercent = reimbursements[i].percent;
-        //     }
-        //   }
-        //   // console.log(tempPercent);
-        //   used += x.eventCost * tempPercent * 1;
-        //   // console.log(used);
-        // }
         balance.innerHTML = "Balance: $" + userInfo.balance;
         page.append(balance);
-        // let newBalance = userInfo.balance - used;
-        // json = JSON.stringify(newBalance);
-        // console.log(json);
         //get all forms from user
         let formTable = document.createElement("table");
         //create table header row
@@ -64,7 +43,8 @@ function getData() {
           "Supervisor Approval",
           "Dept. Head Approval",
           "Benefits Coordinator Approval",
-          "Grade"
+          "Grade",
+          "Reason if Denied"
         ];
         //populate a table with the headers
         for (let h of tHeaders) {
@@ -74,8 +54,6 @@ function getData() {
         }
         formTable.append(thRow);
         // iterate through the forms to put them on the screen
-
-        //console.log(forms);
         for (let form of forms) {
           let tr = document.createElement("tr");
           //event date and time
@@ -144,7 +122,20 @@ function getData() {
           let tdgrade = document.createElement("td");
           tdgrade.innerHTML = form.grade;
           tr.appendChild(tdgrade);
-
+          //reason for denial
+          let tddenial = document.createElement("td");
+          if (form.reason != undefined) {
+            tddenial.innerHTML = form.reason;
+          } else {
+            tddenial.innerHTML = "NA";
+          }
+          tr.appendChild(tddenial);
+          let tdeditbutton = document.createElement("td");
+          let editbutton = document.createElement("button");
+          editbutton.setAttribute("onclick", "editForm(" + form.id + ")");
+          editbutton.innerHTML = "Edit/Add";
+          tdeditbutton.appendChild(editbutton);
+          tr.appendChild(tdeditbutton);
           //add the row to the table
           formTable.appendChild(tr);
         }
@@ -160,4 +151,25 @@ function getData() {
 
 function redirect() {
   window.location.href = "http://localhost:8080/Project1/addForm.html";
+}
+
+function editForm(formid) {
+  let url = "http://localhost:8080";
+
+  let obj = {
+    formid: formid
+  };
+  let json = JSON.stringify(obj);
+
+  let xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = () => {
+    if (xhttp.readyState == 4) {
+      if (xhttp.status == 200) {
+        window.location.href = "http://localhost:8080/Project1/editForm.html";
+      }
+    }
+  };
+  xhttp.open("POST", url + "/Project1/controller/sendID", true);
+
+  xhttp.send(json);
 }

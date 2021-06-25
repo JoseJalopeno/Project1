@@ -25,6 +25,7 @@ public class Form {
 	private boolean BCApproval;
 	private String status;
 	private String grade;
+	private String reason;
 //	@ManyToOne
 //	@JoinColumn(name = "gradeformat", insertable = false, updatable = false)
 	private Integer gradeformat;
@@ -41,7 +42,7 @@ public class Form {
 	public Form(Integer id, Integer empID, Date eventDate, String location,
 			String description, Double eventCost, Integer gradeFormatID, String eventtype,
 			Integer justification, Date submissionDate, Integer reimbursement,
-			boolean supervisorApproval, boolean deptHeadApproval, boolean bCApproval, String status, String grade) {
+			boolean supervisorApproval, boolean deptHeadApproval, boolean bCApproval, String status, String grade, String reason) {
 		super();
 		this.id = id;
 		this.empID = empID;
@@ -59,6 +60,7 @@ public class Form {
 		this.BCApproval = bCApproval;
 		this.status = status;
 		this.grade = grade;
+		this.reason = reason;
 	}
 
 	public Integer getId() {
@@ -189,13 +191,13 @@ public class Form {
 		this.grade = grade;
 	}
 	
-//	public Time getStartTime() {
-//		return startTime;
-//	}
-//
-//	public void setStartTime(Time startTime) {
-//		this.startTime = startTime;
-//	}
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
 
 	@Override
 	public int hashCode() {
@@ -213,8 +215,8 @@ public class Form {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((justification == null) ? 0 : justification.hashCode());
 		result = prime * result + ((location == null) ? 0 : location.hashCode());
+		result = prime * result + ((reason == null) ? 0 : reason.hashCode());
 		result = prime * result + ((reimbursement == null) ? 0 : reimbursement.hashCode());
-		//result = prime * result + ((startTime == null) ? 0 : startTime.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((submissionDate == null) ? 0 : submissionDate.hashCode());
 		result = prime * result + (supervisorApproval ? 1231 : 1237);
@@ -284,16 +286,16 @@ public class Form {
 				return false;
 		} else if (!location.equals(other.location))
 			return false;
+		if (reason == null) {
+			if (other.reason != null)
+				return false;
+		} else if (!reason.equals(other.reason))
+			return false;
 		if (reimbursement == null) {
 			if (other.reimbursement != null)
 				return false;
 		} else if (!reimbursement.equals(other.reimbursement))
 			return false;
-//		if (startTime == null) {
-//			if (other.startTime != null)
-//				return false;
-//		} else if (!startTime.equals(other.startTime))
-//			return false;
 		if (status == null) {
 			if (other.status != null)
 				return false;
@@ -311,13 +313,14 @@ public class Form {
 
 	@Override
 	public String toString() {
-		return "Form [id=" + id + ", empID=" + empID + ", eventDate=" + eventDate //+ ", startTime=" + startTime
-				+ ", location=" + location + ", description=" + description + ", eventCost=" + eventCost
-				+ ", eventtype=" + eventtype + ", submissionDate=" + submissionDate + ", supervisorApproval="
-				+ supervisorApproval + ", deptHeadApproval=" + deptHeadApproval + ", BCApproval=" + BCApproval
-				+ ", status=" + status + ", grade=" + grade + ", gradeFormatID=" + gradeformat + ", justification="
+		return "Form [id=" + id + ", empID=" + empID + ", eventDate=" + eventDate + ", location=" + location
+				+ ", description=" + description + ", eventCost=" + eventCost + ", eventtype=" + eventtype
+				+ ", submissionDate=" + submissionDate + ", supervisorApproval=" + supervisorApproval
+				+ ", deptHeadApproval=" + deptHeadApproval + ", BCApproval=" + BCApproval + ", status=" + status
+				+ ", grade=" + grade + ", reason=" + reason + ", gradeformat=" + gradeformat + ", justification="
 				+ justification + ", reimbursement=" + reimbursement + "]";
 	}
 
+	
 	
 }

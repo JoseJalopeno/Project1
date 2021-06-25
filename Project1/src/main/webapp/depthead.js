@@ -48,7 +48,8 @@ function getData() {
           "Dept. Head Approval",
           "Benefits Coordinator Approval",
           "Grade",
-          "Action"
+          "Action",
+          "Reason for Denial"
         ];
         //populate a table with the headers
         for (let h of tHeaders) {
@@ -59,7 +60,6 @@ function getData() {
         formTable.append(thRow);
         //get the forms to put them on screen
         let forms = unapprovedForms;
-
         for (let form of forms) {
           let tr = document.createElement("tr");
           //employee name on form
@@ -119,7 +119,7 @@ function getData() {
           let tdsubmissionDate = document.createElement("td");
           tdsubmissionDate.innerHTML = form.submissionDate;
           tr.appendChild(tdsubmissionDate);
-          //status (poending, approved, denied)
+          //status (pending, approved, denied)
           let tdstatus = document.createElement("td");
           tdstatus.innerHTML = form.status;
           tr.appendChild(tdstatus);
@@ -162,6 +162,13 @@ function getData() {
           // attach select to td
           tdSelect.appendChild(tdactionSelect);
           tr.appendChild(tdSelect);
+          //add a reasons input if needed (only fo rdeny)
+          let tdReason = document.createElement("td");
+          let reasonInput = document.createElement("input");
+          reasonInput.setAttribute("type", "text");
+          reasonInput.setAttribute("id", "reason");
+          tdReason.appendChild(reasonInput);
+          tr.appendChild(tdReason);
           // create a new button that will send the action to backend
           let tdButton = document.createElement("td");
           let button = document.createElement("button");
@@ -193,7 +200,8 @@ function sendAction(formId) {
 
   let sendObj = {
     action: document.getElementById("action").value,
-    formid: formId
+    formid: formId,
+    reason: document.getElementById("reason").value
   };
   console.log(sendObj);
   let json = JSON.stringify(sendObj);
