@@ -142,8 +142,19 @@ public class FrontControllerServlet extends HttpServlet{
 				em.getForms().add(newForm);
 				em.setBalance(em.getBalance() - newForm.getEventCost());
 				es.update(em);
-				System.out.println(newForm);
-				response.getWriter().append("/Project1/homepage.html");
+				//System.out.println(newForm);
+				if(em.getEmployeeType().getEmployeeType().equalsIgnoreCase("Associate")) {
+					response.getWriter().append("/Project1/homepage.html");
+				} 
+				else if(em.getEmployeeType().getEmployeeType().equalsIgnoreCase("Supervisor")) {
+					response.getWriter().append("/Project1/supervisor.html");
+				}
+				else if(em.getEmployeeType().getEmployeeType().equalsIgnoreCase("Department Head")) {
+					response.getWriter().append("/Project1/depthead.html");
+				}
+				else if(em.getEmployeeType().getEmployeeType().equalsIgnoreCase("Benefits Coordinator")) {
+					response.getWriter().append("/Project1/benefitscoord.html");
+				}
 				break;
 			}//populates data in dropdowns
 			case "grabData": {
@@ -278,7 +289,18 @@ public class FrontControllerServlet extends HttpServlet{
 				f.setReimbursementID(uForm.reimbursement);
 				f.setGrade(uForm.grade);
 				fs.update(f);
-				response.getWriter().append("/Project1/homepage.html");
+				if(em.getEmployeeType().getEmployeeType().equalsIgnoreCase("Associate")) {
+					response.getWriter().append("/Project1/homepage.html");
+				} 
+				else if(em.getEmployeeType().getEmployeeType().equalsIgnoreCase("Supervisor")) {
+					response.getWriter().append("/Project1/supervisor.html");
+				}
+				else if(em.getEmployeeType().getEmployeeType().equalsIgnoreCase("Department Head")) {
+					response.getWriter().append("/Project1/depthead.html");
+				}
+				else if(em.getEmployeeType().getEmployeeType().equalsIgnoreCase("Benefits Coordinator")) {
+					response.getWriter().append("/Project1/benefitscoord.html");
+				}
 				break;
 			}
 			case "bcEditSendID" : {
@@ -296,7 +318,6 @@ public class FrontControllerServlet extends HttpServlet{
 				bcUpdateForm bcForm = this.gson.fromJson(request.getReader(), bcUpdateForm.class);
 				Form f = fs.getById(bcForm.formid);
 				f.setEventCost(bcForm.eventCost);
-				f.setReason(bcForm.reason);
 				fs.update(f);
 				response.getWriter().append("/Project1/benefitscoord.html");
 				break;

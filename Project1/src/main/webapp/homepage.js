@@ -44,7 +44,7 @@ function getData() {
           "Dept. Head Approval",
           "Benefits Coordinator Approval",
           "Grade",
-          "Reason if Denied"
+          "Reason"
         ];
         //populate a table with the headers
         for (let h of tHeaders) {

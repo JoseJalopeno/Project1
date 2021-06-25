@@ -25,8 +25,7 @@ function updateForm() {
 
   let updateObject = {
     formid: document.getElementById("formid").value,
-    eventCost: document.getElementById("eventCost").value,
-    reason: document.getElementById("reason").value
+    eventCost: document.getElementById("eventCost").value
   };
   let json = JSON.stringify(updateObject);
   console.log(json);
