@@ -177,6 +177,13 @@ function getData() {
           //attach button to td
           tdButton.appendChild(button);
           tr.appendChild(tdButton);
+          //adds an edit button so bc can change reimbursement amount
+          let tdeditbutton = document.createElement("td");
+          let editbutton = document.createElement("button");
+          editbutton.setAttribute("onclick", "bcEditForm(" + form.id + ")");
+          editbutton.innerHTML = "Edit/Add";
+          tdeditbutton.appendChild(editbutton);
+          tr.appendChild(tdeditbutton);
 
           //add the row to the table
           formTable.appendChild(tr);
@@ -215,6 +222,27 @@ function sendAction(formId) {
   };
 
   xhttp.open("POST", url + "/Project1/controller/bcApproval", true);
+
+  xhttp.send(json);
+}
+
+function bcEditForm(formid) {
+  let url = "http://localhost:8080";
+
+  let obj = {
+    formid: formid
+  };
+  let json = JSON.stringify(obj);
+
+  let xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = () => {
+    if (xhttp.readyState == 4) {
+      if (xhttp.status == 200) {
+        window.location.href = "http://localhost:8080/Project1/bcEditForm.html";
+      }
+    }
+  };
+  xhttp.open("POST", url + "/Project1/controller/bcEditSendID", true);
 
   xhttp.send(json);
 }

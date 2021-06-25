@@ -63,6 +63,12 @@ public class FrontControllerServlet extends HttpServlet{
 		String grade;
 	}
 	
+	class bcUpdateForm {
+		int formid;
+		Double eventCost;
+		String reason;
+	}
+	
 	private EmployeeServices es = new EmployeeServices();
 	private FormServices fs = new FormServices();
 	private JustificationsServices js = new JustificationsServices();
@@ -73,6 +79,7 @@ public class FrontControllerServlet extends HttpServlet{
 	static HttpSession session; 
 	static Employee em;
 	static int formid;
+	static int bcEditID;
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String uri = request.getRequestURI();
@@ -259,7 +266,7 @@ public class FrontControllerServlet extends HttpServlet{
 			}
 			case "updateForm": {
 				updateForm uForm = this.gson.fromJson(request.getReader(), updateForm.class);
-				System.out.println("Update Form id: " + uForm.formid);
+				//System.out.println("Update Form id: " + uForm.formid);
 				Form f = fs.getById(uForm.formid);
 				f.setEventDate(uForm.eventDate);
 				f.setLocation(uForm.location);
@@ -272,6 +279,26 @@ public class FrontControllerServlet extends HttpServlet{
 				f.setGrade(uForm.grade);
 				fs.update(f);
 				response.getWriter().append("/Project1/homepage.html");
+				break;
+			}
+			case "bcEditSendID" : {
+				editForm bcEdit = this.gson.fromJson(request.getReader(), editForm.class);
+				bcEditID = bcEdit.formid;
+				break;
+			}
+			case "bcEditForm" : {
+				Form f = fs.getById(bcEditID);
+				String json = this.gson.toJson(f);
+				response.getWriter().append(json);
+				break;
+			}
+			case "bcUpdateForm" : {
+				bcUpdateForm bcForm = this.gson.fromJson(request.getReader(), bcUpdateForm.class);
+				Form f = fs.getById(bcForm.formid);
+				f.setEventCost(bcForm.eventCost);
+				f.setReason(bcForm.reason);
+				fs.update(f);
+				response.getWriter().append("/Project1/benefitscoord.html");
 				break;
 			}
 			case "logout": {
