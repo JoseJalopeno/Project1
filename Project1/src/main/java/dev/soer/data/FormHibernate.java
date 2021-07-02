@@ -141,7 +141,7 @@ public class FormHibernate implements GenericRepo<Form> {
 		Session s = HibernateUtil.getSession();
 		List<Form> forms = null;
 		try {
-			forms = s.createQuery("FROM forms where supervisorApproval = false").list();
+			forms = s.createQuery("FROM forms where supervisorApproval = false and status = 'Pending'").list();
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		} finally {
@@ -154,7 +154,7 @@ public class FormHibernate implements GenericRepo<Form> {
 		Session s = HibernateUtil.getSession();
 		List<Form> forms = null;
 		try {
-			forms = s.createQuery("FROM forms where supervisorApproval = true and deptheadapproval = false").list();
+			forms = s.createQuery("FROM forms where supervisorApproval = true and deptheadapproval = false and status = 'Pending'").list();
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		} finally {
@@ -167,7 +167,7 @@ public class FormHibernate implements GenericRepo<Form> {
 		Session s = HibernateUtil.getSession();
 		List<Form> forms = null;
 		try {
-			forms = s.createQuery("FROM forms where supervisorapproval = true and deptheadapproval = true and benefitscoordinatorapproval = false").list();
+			forms = s.createQuery("FROM forms where supervisorapproval = true and deptheadapproval = true and benefitscoordinatorapproval = false and status = 'Pending'").list();
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		} finally {

@@ -59,7 +59,6 @@ function populate() {
         for (let i in justifications) {
           let just = justifications[i];
           let option = document.createElement("option");
-          //let just2 = JSON.stringify(just);
           option.setAttribute("value", just.id);
           option.innerHTML = just.justification;
           justDrop.appendChild(option);
